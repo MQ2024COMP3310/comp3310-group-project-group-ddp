@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>
+        Cloud Photos
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" type="text/css">
+</head>
+<body>
+    <div class="main-container">
+        {% include 'partials/header.html' %}
+
+        {% if self.content() %}
+        <div class="content-container centered">
+            {% if self.heading() %}
+            <div class="content-heading-container">
+                {% block heading %}
+                {% endblock heading %}
+            </div>
+            {% endif %}
+
+            {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+            <div id="flash" class="flashed-message-container">
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            {% block content %}
+            {% endblock content %}
+        </div>
+        {% endif %}
+    </div>
+
+    {% include 'partials/footer.html' %}
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Upload a photo
+{% endblock title %}
+
+{% block heading %}
+Upload a photo
+{% endblock heading %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    <div class="input-container button" title="File size should be under 1MB">
+        <!-- Currently accept all files. Should be image files only. -->
+        <input type="file" name="fileToUpload" accept="*/*">
+    </div>
+
+    <div class="input-container">
+        <label for="user">User</label>
+        <input id="user" type="text" name="user"
+            placeholder="User"
+            title="Specify your user name"
+            required
+        >
+    </div>
+    <div class="input-container">
+        <label for="caption">Caption</label>
+        <input id="caption" type="text" name="caption"
+            placeholder="Caption"
+            title="Provide a nice and short caption to your photo"
+            required
+        >
+    </div>
+    <div class="input-container">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" 
+            placeholder="Description"
+            rows=6 cols=25
+            title="Provide a nice and short description to your photo"
+            required></textarea>
+    </div>
+
+    <div class="input-container button green">
+        <input type="submit" value="Upload">
+        <a href="{{ url_for('main.homepage') }}">Cancel</a>
+    </div>
+</form>
+{% endblock content %}
+
