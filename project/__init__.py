@@ -8,13 +8,16 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 
 
-def create_app():
+def create_app(test_config = None):
     app = Flask(__name__)
 
     app.config['SECRET_KEY'] = 'secret-key-do-not-reveal'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///photos.db'
     CWD = Path(os.path.dirname(__file__))
     app.config['UPLOAD_DIR'] = CWD / "uploads"
+    
+    if test_config is not None:
+        app.config.from_mapping(test_config)
 
     db.init_app(app)
 

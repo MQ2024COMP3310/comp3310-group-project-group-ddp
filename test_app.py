@@ -2,6 +2,7 @@ import unittest
 from flask import current_app
 from project import create_app, db
 from project.models import Photo
+from project.models import User
 from werkzeug.security import check_password_hash
 
 
@@ -30,6 +31,48 @@ class TestWebApp(unittest.TestCase):
         response = self.client.get('/', follow_redirects=True)
         assert response.status_code == 200
 
+    def test_registration_form(self):
+        response = self.client.get('/signup')
+        assert response.status_code == 200
+
+    def test_no_access_to_profile(self):
+        response = self.client.get('/profile', follow_redirects=True)
+        assert response.status_code == 200
+        assert response.request.path == '/login'
+
+    def test_register_user(self):
+        response = self.client.post('/signup', data={
+            'email': 'user@test.com',
+            'name': 'test user',
+            'password': 'test123'
+        }, follow_redirects=True)
+        assert response.status_code == 200
+        # should redirect to the login page
+        assert response.request.path == '/'
+
+        # verify that user can now login
+        response = self.client.post('/login', data={
+            'email': 'user@test.com',
+            'password': 'test123'
+        }, follow_redirects=True)
+        assert response.status_code == 200
+        html = response.get_data(as_text=True)
+        assert 'Logout' in html
+
+    def test_hashed_passwords(self):
+        response = self.client.post('/signup', data={
+            'email': 'user@test.com',
+            'name': 'test user',
+            'password': 'test123'
+        }, follow_redirects=True)
+        assert response.status_code == 200
+        # should redirect to the login page
+        assert response.request.path == '/'
+
+        user = User.query.filter_by(email='user@test.com').first()
+        assert user is not None
+        assert check_password_hash(user.password, 'test123')
+
     def test_sql_injection(self):
         response = self.client.post('/signup', data={
             'email': 'user@test.com"; drop table user; -- ',
@@ -37,6 +80,7 @@ class TestWebApp(unittest.TestCase):
             'password': 'test123'
         }, follow_redirects=True)
         assert response.status_code == 200
+        # assert User.query throws exception
 
     def test_xss_vulnerability(self):
         response = self.client.post('/signup', data={
@@ -46,4 +90,4 @@ class TestWebApp(unittest.TestCase):
         }, follow_redirects=True)
 
         html = response.get_data(as_text=True)
-        assert '<script>' not in html
+        assert not '<script>' in html
