@@ -4,6 +4,7 @@ from project import create_app, db
 from project.models import Photo
 from project.models import User
 from werkzeug.security import check_password_hash
+# Testing workflows
 
 
 class TestWebApp(unittest.TestCase):
