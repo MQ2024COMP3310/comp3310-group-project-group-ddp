@@ -11,54 +11,58 @@ Edit a photo
 {% block content %}
 <form method="POST" enctype="multipart/form-data" action="{{ url_for('main.editPhoto', photo_id=photo.id) }}">
 
-  <div class="edit-container">
-    <div class="image-box">
-       <img class="image" src="{{ url_for('main.display_file', name=photo.file) }}" alt="image">
-    </div>
-    <div class="input-box">
-    <div class="input-container">
-        <label for="user">User</label>
-        <input id="user" type="text" name="user"
-            value="{{photo.name}}"
-            title="Specify your user name"
-            required
-        >
-    </div>
-    <div class="input-container">
-        <label for="caption">Caption</label>
-        <input id="caption" type="text" name="caption"
-            value="{{photo.caption}}"
-            title="Provide a nice and short caption to your photo"
-            required
-        >
-    </div>
-    <div class="input-container">
-        <label for="description">Description</label>
-        <textarea id="description" name="description" rows=6 cols=25 
-            title="Provide a nice and short description to your photo"
-            required>{{photo.description}}</textarea>
-    </div>
-    <div class="input-box">
-        <div class="image-comments">
-            <label for="who-commented-list">Posts</label>
-            <output id="who-commented-list" type="text"
-                value="who-commented-list"
-                title="Previous Comments"
+    <div class="edit-container">
+        <div class="image-box">
+            <img class="image" src="{{ url_for('main.display_file', name=photo.file) }}" alt="image">
+        </div>
+        <div class="input-box">
+            <div class="input-container">
+                <label for="user">User</label>
+                <input id="user" type="text" name="user" value="{{photo.name}}" title="Specify your user name" required>
+            </div>
+            <div class="input-container">
+                <label for="caption">Caption</label>
+                <input id="caption" type="text" name="caption" value="{{photo.caption}}"
+                    title="Provide a nice and short caption to your photo" required>
+            </div>
+            <div class="input-container">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows=6 cols=25
+                    title="Provide a nice and short description to your photo" required>{{photo.description}}</textarea>
+            </div>
+            <div class="input-box">
+                <div class="image-comments">
+                    <label for="who-commented-list">Posts</label>
+                    <output id="who-commented-list" type="text" value="who-commented-list" title="Previous Comments"
+                        </div>
+                </div>
+                <div <label for="user">Comments</label>
+                    <input id="user" type="text" name="user" value="Insert Comment" title="Write a comment">
+                </div>
+            </div>
+            <!-- added authentication interface for making changes -->
+            <!-- <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="password" name="password" placeholder="Your Password">
+                </div>
+            </div>
+            <div class="field">
+                <label class="checkbox">
+                    <input type="checkbox" name="remember">
+                    Remember me
+                </label>
+            </div> -->
+            <div class="input-container button green">
+                <input type="submit" value="Save">
+                <a href="{{ url_for('main.homepage') }}">Cancel</a>
+            </div>
         </div>
     </div>
-        <div
-        <label for="user">Comments</label>
-        <input id="user" type="text" name="user"
-             value="Insert Comment"
-             title="Write a comment"
-                >
-        </div>
-    <div class="input-container button green">
-        <input type="submit" value="Save">
-        <a href="{{ url_for('main.homepage') }}">Cancel</a>
-    </div>
-  </div>
-  </div>
 </form>
 {% endblock content %}
-
