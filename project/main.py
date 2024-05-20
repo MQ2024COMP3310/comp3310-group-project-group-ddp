@@ -99,6 +99,7 @@ def editPhoto(photo_id):
 
 # This is called when clicking on Delete.
 @main.route('/photo/<int:photo_id>/delete/', methods=['GET', 'POST'])
+@login_required
 def deletePhoto(photo_id):
     fileResults = db.session.execute(
         text('select file from photo where id = ' + str(photo_id)))
