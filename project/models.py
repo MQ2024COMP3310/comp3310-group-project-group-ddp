@@ -6,6 +6,7 @@ class Photo(db.Model):
     caption = db.Column(db.String(250), nullable=False)
     file = db.Column(db.String(250), nullable=False)
     description = db.Column(db.String(600), nullable=True)
+    comment = db.Column(db.String(600), nullable=True)
 
     @property
     def serialize(self):
@@ -16,5 +17,6 @@ class Photo(db.Model):
            'caption'      : self.caption,
            'file'         : self.file,
            'desc'         : self.description,
+           'comment'      : self.comment,
        }
  

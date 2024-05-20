@@ -36,7 +36,8 @@ CREATE TABLE photo (
 	name VARCHAR(50) NOT NULL,   
 	caption VARCHAR(250) NOT NULL,   
 	file VARCHAR(250) NOT NULL,   
-	description VARCHAR(600),   
+	description VARCHAR(600),  
+	comment VARCHAR(600), 
 	PRIMARY KEY (id)  
 );   
 
