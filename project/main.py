@@ -14,9 +14,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 main = Blueprint('main', __name__)
 
+
 # This is called when the home page is rendered. It fetches all images sorted by filename.
-
-
 @main.route('/')
 def homepage():
     photos = db.session.query(Photo).order_by(asc(Photo.file))
