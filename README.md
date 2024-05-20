@@ -14,9 +14,11 @@ To setup the basic website you will need to have the following installed:
 Pip is the package manager for Python.  You can install the remaining packages required for this task using pip. You will need to run the following:
 To start you should create and activate a virtual environment:
 
+~~~
  $ python -m venv env        # use `virtualenv env` for Python2, use `python3 ...` for Python3 on Linux & macOS   
- $ source env/bin/activate   # use `env\Scripts\activate` on Windows   
+ $ source env/bin/activate   # use `.\env\Scripts\activate.ps1` on Windows   
  $ pip install -r requirements.txt   
+~~~
 
 This web application has been tested on Python 3.10.13. If you have problems running this app, it is recommended that you downgrade to Python 3.10.13. Instructions on how to do this (on Mac with M1 chip) are here: https://stackoverflow.com/questions/62898911/how-to-downgrade-python-version-from-3-8-to-3-7-mac (replacing 3.7 with 3.10.13).
 
@@ -39,7 +41,7 @@ CREATE TABLE photo (
 	description VARCHAR(600),  
 	comment VARCHAR(600), 
 	PRIMARY KEY (id)  
-);   
+);
 
 > select * from photo;  
 1|William Warby|Gentoo penguin|william-warby-_A_vtMMRLWM.jpg|A penguin with an orange beak standing next to a rock.   
@@ -53,6 +55,18 @@ CREATE TABLE photo (
 9|Damian Ochrymowicz|Nazare, Portugal|damian-ochrymowicz-GZQ7tKmEd9c.jpg|   
 10|Dima DallAcqua|Alcatraz Island|dima-dallacqua-U8TAGVPFJc4.jpg|A close up of a green plant.   
 11|Edgar|Oporto, Portugal|edgar-Q0g5Thf7Ank.jpg|A man sitting on a bench at a train station.   
+
+> .schema    
+CREATE TABLE user (  
+	id INTEGER NOT NULL,  
+	email VARCHAR(100),  
+	password VARCHAR(100),  
+	name VARCHAR(1000),  
+	PRIMARY KEY (id),  
+	UNIQUE (email)  
+);  
+
+> select * from user;   
 
 
 # Run the website

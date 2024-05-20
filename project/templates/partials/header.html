@@ -12,20 +12,24 @@
                     <img src="{{ url_for('static', filename='icons/community.png') }}" alt="community">
                 </div>
             </div>
-            
-            {% if logged_in %}
-            <div class="link-box">
-                Logout
-            </div>
-            {% else %}
-            <div class="link-box">
+{% if current_user.is_authenticated %}
+            <a href="{{ url_for('main.profile') }}" class="navbar-item">
+                Profile
+            </a>
+{% endif %}
+{% if not current_user.is_authenticated %}
+            <a href="{{ url_for('auth.login') }}" class="navbar-item">
                 Login
-            </div>  
-                
-            <div class="link-box">
-                Sign up
-            </div>
-            {% endif %}
+            </a>
+            <a href="{{ url_for('auth.signup') }}" class="navbar-item">
+                Sign Up
+            </a>
+{% endif %}
+{% if current_user.is_authenticated %}
+            <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                Logout
+            </a>
+{% endif %}
         </div>
     </div>  
 </header>   
