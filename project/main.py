@@ -1,3 +1,4 @@
+from urllib.parse import urljoin, urlparse
 from flask import (
     Blueprint, render_template, request,
     flash, redirect, url_for, send_from_directory,
@@ -10,7 +11,7 @@ import os
 
 from flask_login import login_required, current_user
 from .models import User
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 
 main = Blueprint('main', __name__)
 
@@ -32,6 +33,11 @@ def display_file(name):
 def profile():
     return render_template('profile.html', name=current_user.name)
 
+# Check whether the target url is under the scope of our host
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 # Upload a new photo
 @main.route('/upload/', methods=['GET', 'POST'])
@@ -45,10 +51,15 @@ def newPhoto():
 
         if not file or not file.filename:
             flash("No file selected!", "error")
-            return redirect(request.url)
+            # check whether the target url is under the scope of our host
+            if is_safe_url(request.url):
+                return redirect(request.url)
+            else:
+                return redirect(main.homepage)
 
         filepath = os.path.join(
-            current_app.config["UPLOAD_DIR"], file.filename)
+            # sanitise filename before using
+            current_app.config["UPLOAD_DIR"], secure_filename(file.filename))
         file.save(filepath)
 
         newPhoto = Photo(name=request.form['user'],
@@ -69,22 +80,6 @@ def newPhoto():
 def editPhoto(photo_id):
     editedPhoto = db.session.query(Photo).filter_by(id=photo_id).one()
     if request.method == 'POST':
-        # # Authentication needed before an edit is allowed
-        # email = request.form.get('email')
-        # password = request.form.get('password')
-        # remember = True if request.form.get('remember') else False
-
-        # user = User.query.filter_by(email=email).first()
-
-        # if not user or not check_password_hash(user.password, password):
-        #     flash('Please check your login details and try again.')
-        #     current_app.logger.warning("User failed to login")
-        #     # if the user doesn't exist or password is wrong, reload the page
-        #     return redirect(url_for('main.homepage'))
-
-        # # Returns the edit page for the user
-        # login_user(user, remember=remember)
-        # return redirect(url_for('main.profile'))
         if request.form['user']:
             editedPhoto.name = request.form['user']
             editedPhoto.caption = request.form['caption']
@@ -101,12 +96,12 @@ def editPhoto(photo_id):
 @main.route('/photo/<int:photo_id>/delete/', methods=['GET', 'POST'])
 @login_required
 def deletePhoto(photo_id):
-    fileResults = db.session.execute(
-        text('select file from photo where id = ' + str(photo_id)))
-    filename = fileResults.first()[0]
+    # mitigated SQL injection using Object-Relational Mapping (ORM) approach
+    targetPhoto = db.session.query(Photo).filter_by(id=photo_id).one()
+    filename = targetPhoto.file
     filepath = os.path.join(current_app.config["UPLOAD_DIR"], filename)
     os.unlink(filepath)
-    db.session.execute(text('delete from photo where id = ' + str(photo_id)))
+    db.session.delete(targetPhoto)
     db.session.commit()
 
     flash('Photo id %s Successfully Deleted' % photo_id)
