@@ -69,22 +69,6 @@ def newPhoto():
 def editPhoto(photo_id):
     editedPhoto = db.session.query(Photo).filter_by(id=photo_id).one()
     if request.method == 'POST':
-        # # Authentication needed before an edit is allowed
-        # email = request.form.get('email')
-        # password = request.form.get('password')
-        # remember = True if request.form.get('remember') else False
-
-        # user = User.query.filter_by(email=email).first()
-
-        # if not user or not check_password_hash(user.password, password):
-        #     flash('Please check your login details and try again.')
-        #     current_app.logger.warning("User failed to login")
-        #     # if the user doesn't exist or password is wrong, reload the page
-        #     return redirect(url_for('main.homepage'))
-
-        # # Returns the edit page for the user
-        # login_user(user, remember=remember)
-        # return redirect(url_for('main.profile'))
         if request.form['user']:
             editedPhoto.name = request.form['user']
             editedPhoto.caption = request.form['caption']
