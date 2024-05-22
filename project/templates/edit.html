@@ -11,19 +11,19 @@ Edit a photo
 {% block content %}
 <form method="POST" enctype="multipart/form-data" action="{{ url_for('main.editPhoto', photo_id=photo.id) }}">
 
-  <div class="edit-container">
-    <div class="image-box">
-       <img class="image" src="{{ url_for('main.display_file', name=photo.file) }}" alt="image">
-    </div>
-    <div class="input-box">
-    <div class="input-container">
-        <label for="user">User</label>
-        <input id="user" type="text" name="user"
-            value="{{photo.name}}"
-            title="Specify your user name"
-            required
-        >
-    </div>
+    <div class="edit-container">
+      <div class="image-box">
+         <img class="image" src="{{ url_for('main.display_file', name=photo.file) }}" alt="image">
+      </div>
+      <div class="input-box">
+      <div class="input-container">
+          <label for="user">User</label>
+          <input id="user" type="text" name="user"
+              value="{{photo.name}}"
+              title="Specify your user name"
+              required
+          >
+      </div>
     <div class="input-container">
         <label for="caption">Caption</label>
         <input id="caption" type="text" name="caption"
@@ -33,7 +33,7 @@ Edit a photo
         >
     </div>
 
-    <!-- Description posts -->
+<!-- Description posts -->
     <div class="input-container">
         <label for="description">Description</label>
         <textarea id="description" name="description" rows=6 cols=25 
@@ -41,7 +41,7 @@ Edit a photo
             required>{{photo.description}}</textarea>
     </div>
 
-<!-- Comments posts -->
+<!--
 
 <div class="input-container">
     <label for="comment">Comments</label>
@@ -50,13 +50,35 @@ Edit a photo
         title="Specify Comments"
     >
 </div>
+-->
+
+<!-- Comments posts -->
+<div class="input-container">
+    <label for="comment">Display Comment</label>
     
+    <p>User:{{photo.id}}<input id="comment" type="text" name="comment"
+        title="Specify Comments"
+        value="{{photo.comments}} "
+    >
+    </p>
+</div>
+
+<div class="input-container">
+    <label for="comment">Post Comments</label>
+    <input id="comment" type="text" name="comment"
+        title="Specify Comments"
+        value="{{photo.comments,}}">
+</div>
+
 <!-- Save button -->
-    <div class="input-container button green">
-        <input type="submit" value="Save">
-        <a href="{{ url_for('main.homepage') }}">Cancel</a>
-    </div>
-  </div>
-  </div>
+<div class="input-container button green">
+    <input type="submit" value="Save">
+    <a href="{{ url_for('main.homepage') }}">Cancel</a>
+</div>
 </form>
 {% endblock content %}
+
+
+
+
+
