@@ -12,10 +12,9 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     photo_id = db.Column(db.Integer, db.ForeignKey('photo.id'), nullable=False)
+    comment = db.Column(db.String(600), nullable=True)
+    username = db.Column(db.String(1000))    # db.relationship('User', backref='comments')
     
- 
-
-    user = db.relationship('User', backref='comments')
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
@@ -24,6 +23,7 @@ class Comment(db.Model):
             'user_id': self.user_id,
             'photo_id': self.photo_id,
             'comment': self.comment,
+            'username': self.user.name,  # Accessing the username of the commenter
         }
 
 class Photo(db.Model):

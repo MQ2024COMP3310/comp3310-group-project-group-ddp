@@ -21,6 +21,10 @@
 	font-size: 1.4em;
 }
 
+li {
+    list-style: none;
+}
+
 * {
 	font-size: inherit;
 	font-family: monospace;
@@ -478,6 +482,7 @@ a.reset-password {
 	justify-content: space-between;
 	padding: 0.4em;
 	width: 28em;
+	list-style-type: none;
 }
 
 .button {
@@ -935,6 +940,7 @@ a.reset-password {
 	z-index: 3;
 	visibility: hidden;
 	transition: visibility var(--transition-duration);
+	list-style-type: none;
 }
 
 .comment-input {
@@ -944,7 +950,7 @@ a.reset-password {
     background-color: #f9f9f9;
     max-height: 200px;
     overflow-y: auto;
-	
+	list-style-type: none;
 }
 
 .image-box.commenting .comment-input-container {

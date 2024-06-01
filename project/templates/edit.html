@@ -32,21 +32,31 @@ Edit a photo
             required
         >
     </div>
+    <!-- Description!!! -->
     <div class="input-container">
         <label for="description">Description</label>
         <textarea id="description" name="description" rows=6 cols=25 
             title="Provide a nice and short description to your photo"
             required>{{photo.description}}</textarea>
     </div>
+    <!-- List of Comments from Users -->
     <div class="input-container">
         <label for="comments">Comments</label>
     <ul>
         {% for comment in photo.comments %}
-            <li>{{str(comment.user_id)+comment.comment }}</li>
+            <li>{{comment.username+": "+comment.comment }}</li>
         {% endfor %}
     </ul>
     </div>
-
+    <!-- Adding comment-->
+        <div class="input-container">
+            <label for="comment">Post Comments</label>
+            <input id="comment" type="text" name="comment" placeholder="Enter your comment here"
+                title="Specify Comments"
+                value="{{photo.comments}}" readonly>
+        </div>
+        <input type="hidden" name="photo_id" value="{{photo.id}}">
+    </form>
 
 <!-- Save button -->
     <div class="input-container button green">

@@ -69,18 +69,19 @@ def populate_db():
     session.add(user)
     session.commit()
 
-  #Inital Comments
-    comment = Comment(user_id=1, photo_id=9, comment='Output is working as intended brothers.')
+  # Initial Comments
+    comment = Comment(user_id=1, photo_id=9, comment='Output is working as intended brothers.', username='Alice Smith')
     session.add(comment)
     session.commit()
 
-    comment = Comment(user_id=2, photo_id=1, comment='amazing')
+    comment = Comment(user_id=2, photo_id=9, comment='amazing and incredible!!!! Upvoting.', username='Bob Johnson')
     session.add(comment)
     session.commit()
 
-    comment = Comment(user_id=3, photo_id=2, comment='beautiful')
+    comment = Comment(user_id=3, photo_id=2, comment='beautiful', username='Charile Brown')
     session.add(comment)
     session.commit()
+
 
 if __name__ == '__main__':
   app = create_app()
