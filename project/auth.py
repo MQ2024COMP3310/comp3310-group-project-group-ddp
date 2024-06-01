@@ -1,12 +1,14 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from flask_login import login_user, login_required, logout_user
 from sqlalchemy import text
-from .models import User
+from project.models import Photo, User, Comment
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import re
+import time
+import bleach
 auth = Blueprint('auth', __name__)
-
+comment_limit = {}
 
 @auth.route('/login')
 def login():
@@ -62,6 +64,35 @@ def signup_post():
     db.session.commit()
 
     return redirect(url_for('main.homepage'))
+
+# Chatgpt assisted Code, currently not working. Currently not sure how to get photo id of the page user was just on so maybe have to tweak something in Edit html.
+#@auth.route('/photo', methods=['POST'])
+# def addcomment():
+  #  comment = bleach.clean(request.form.get('comment', ''))
+   # comment = re.sub('<[^<]+?>', '', comment)
+    # Make sure it isn't too long
+  #  if len(comment) > 400:
+  #      flash('Comment is too long')
+  #      return redirect(url_for('main.homepage'))
+    # Rate Limiting
+  #  user_id = login_user.id  # Assuming current_user is available
+# if user_id in comment_limit and time.time() - comment_limit[user_id] < 60:
+ #       flash('Rate limit exceeded')
+  #      return redirect(url_for('main.homepage'))
+  #  comment_limit[user_id] = time.time()
+
+    # Not working code to get photo id of the comment as each comment has a photo id (that it is attached to)
+    # photo = Photo.query.get(photo_id)
+
+    # Update the photo's comment if a comment was provided
+  #  if comment:
+  #  new_comment = Comment(user_id, photo_id=photo_id, comment=comment, username=login_user.name)
+  #  db.session.add(new_comment)
+  #  db.session.commit()
+
+    # Redirect back to the photo detail page or another appropriate page
+  #  return redirect(url_for('main.homepage'))
+
 
 
 @auth.route('/logout')
