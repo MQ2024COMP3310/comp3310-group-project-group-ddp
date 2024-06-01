@@ -32,25 +32,22 @@ Edit a photo
             required
         >
     </div>
-
-    <!-- Description posts -->
     <div class="input-container">
         <label for="description">Description</label>
         <textarea id="description" name="description" rows=6 cols=25 
-            title="Description"
+            title="Provide a nice and short description to your photo"
             required>{{photo.description}}</textarea>
     </div>
+    <div class="input-container">
+        <label for="comments">Comments</label>
+    <ul>
+        {% for comment in photo.comments %}
+            <li>{{str(comment.user_id)+comment.comment }}</li>
+        {% endfor %}
+    </ul>
+    </div>
 
-<!-- Comments posts -->
 
-<div class="input-container">
-    <label for="comment">Comments</label>
-    <input id="comment" type="text" name="comment"
-        value="{{photo.comment}}"
-        title="Specify Comments"
-    >
-</div>
-    
 <!-- Save button -->
     <div class="input-container button green">
         <input type="submit" value="Save">
