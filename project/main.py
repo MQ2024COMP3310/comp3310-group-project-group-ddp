@@ -35,8 +35,6 @@ def profile():
 
 
 # Check whether the target url is under the scope of our host
-
-
 def is_safe_url(target):
     ref_url = urlparse(request.host_url)
     test_url = urlparse(urljoin(request.host_url, target))
@@ -44,8 +42,6 @@ def is_safe_url(target):
 
 
 # Upload a new photo
-
-
 @main.route('/upload/', methods=['GET', 'POST'])
 def newPhoto():
     if request.method == 'POST':
@@ -62,10 +58,11 @@ def newPhoto():
                 return redirect(request.url)
             else:
                 return redirect(main.homepage)
-
+            
+        file.filename = secure_filename(file.filename)
         filepath = os.path.join(
             # sanitise filename before using
-            current_app.config["UPLOAD_DIR"], secure_filename(file.filename))
+            current_app.config["UPLOAD_DIR"], file.filename)
         file.save(filepath)
 
         newPhoto = Photo(name=request.form['user'],
